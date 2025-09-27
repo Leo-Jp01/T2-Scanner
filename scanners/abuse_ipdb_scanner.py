@@ -38,7 +38,7 @@ def abuse_scaner(ip:str) -> dict:
         #All about config and api use: -> https://docs.abuseipdb.com/#configuring-fail2ban
         url = "https://api.abuseipdb.com/api/v2/check"
         headers = {'Accept': 'application/json','Key': api_key_abuse}
-        params = {'ipAddress': ip,'maxAgeInDays': '90',"Verbose":""}
+        params = {'ipAddress': ip,'maxAgeInDays': '90',"verbose":""}
 
 
         response = requests.get(url,params=params,headers=headers,timeout=10)
@@ -47,7 +47,20 @@ def abuse_scaner(ip:str) -> dict:
         #All data obtained by api
         if response.status_code == 200:
             data = response.json()
-            return data
+            
+        #Organized data info
+        data_api = data["data"]
+
+
+        ip_inf = data_api.get("ipAddress")
+
+        return {
+            "IP": ip_inf,
+            "all": data_api
+
+
+        }
+
     
     #All about requests exceptions -> https://docs.python-requests.org/en/latest/api/
     except requests.exceptions.RequestException():
@@ -58,10 +71,6 @@ def abuse_scaner(ip:str) -> dict:
         return {"Error": "An HTTP error occurred."}
     except requests.exceptions.TooManyRedirects():
         return {"Error": "Too many redirects."}
-    except requests.exceptions.ConnectionError():
-        return {"Error": "The request timed out while trying to connect to the remote server."}
-    except requests.exceptions.ReadTimeout():
-        return {"Error": "The server did not send any data in the allotted amount of time."}
     except requests.exceptions.Timeout():
         return {"Error": "The request timed out."}
     except requests.exceptions.JSONDecodeError():
