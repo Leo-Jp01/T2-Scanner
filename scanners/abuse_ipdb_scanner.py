@@ -44,6 +44,7 @@ def abuse_confidence_score(abuse_confidence: int) -> str:
     else:
         return f"CLEAN" 
 
+# --------------- Point Attacks ----------------
 def get_attack_categories(categories: set[int]) -> str:
     """Return a str with contains all possible point attacks 
 
