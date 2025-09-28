@@ -45,26 +45,43 @@ def abuse_confidence_score(abuse_confidence: int) -> str:
         return f"CLEAN" 
 
 def get_attack_categories(categories: set[int]) -> str:
+    """Return a str with contains all possible point attacks 
+
+    Args:
+        categories (set[int]): set that contains the attack points in int format
+
+    Returns:
+        str: return a str with all point attacks
+    """
     
+    #All about attack categories: -> https://www.abuseipdb.com/categories
     attack_categories = {1:"DNS Compromise",2:"DNS Poisoning",3:"Fraud Orders",4:"DDoS Attack",5:"FTP Brute-Force",6:"Ping of Death",
                      7:"Phishing",8:"Fraud VoIP",9:"Open Proxy",10:"Web Spam",11:"Email Spam",12:"Blog Spam",
                      13:"VPN IP",14:"Port Scan",15:"Hacking",16:"SQL Injection",17:"Spoofing",18:"Brute-Force",
                      19:"Bad Web Bot",20:"Exploited Host",21:"Web App Attack",22:"SSH",23:"IoT Targeted"}
+    
+    
+    attacks = []
+    for type_attack in categories:
+        if type_attack in attack_categories.keys():
+            attacks.append(attack_categories.get(type_attack))
+    
+    return " | ".join(attacks)
 
 
 
 # ------------ Main logic for Abuse Scanner --------------
 def abuse_scaner(ip:str) -> dict:
-    """_summary_
+    """take an IP address in string format and validates it, then uses the AbuseIPDB API to retrieve information about it.
 
     Args:
-        ip (str): _description_
+        ip (str): ip in str format
 
     Raises:
-        ValueError: _description_
+        ValueError: check if the ip is valid
 
     Returns:
-        dict: _description_
+        dict: return a dict with all information about the ip using de AbuseIPDB API
     """
     
     #Validate if the IP is valid before to start
@@ -97,8 +114,17 @@ def abuse_scaner(ip:str) -> dict:
         isp = data_api.get("isp","Unknown")
         total_reports = data_api.get("totalReports")
         last_reported = data_api.get("lastReportedAt")
+        white_list = data_api.get("isWhitelisted")
+        tor = data_api.get("isTor")
 
-        #categories = data_api.get("reports")
+        categories = data_api.get("reports")
+
+        unique_reports = set()
+
+        for report in categories:
+            temp = report.get("categories")
+            for value in temp:
+                unique_reports.add(value)
 
         return {
             "IP": f"{ip_inf} - IPv{ip_version}",
@@ -106,10 +132,9 @@ def abuse_scaner(ip:str) -> dict:
             "Country": f"{country} | ISP: {isp}",
             "Total reports": total_reports,
             "Last reported": last_reported,
-            #"Categories": categories
-
-
-
+            "Attack categories": get_attack_categories(unique_reports),
+            "White list": "Yes" if white_list else "No",
+            "Tor": "Yes" if tor else "No"
         }
 
     
@@ -127,6 +152,3 @@ def abuse_scaner(ip:str) -> dict:
     except requests.exceptions.JSONDecodeError():
         return {"Error": "Couldn’t decode the text into json"}
     
-
-
-print(abuse_scaner("147.185.133.138"))
