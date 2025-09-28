@@ -1,0 +1,1 @@
+from scanners.abuse_ipdb_scanner import abuse_scaner
