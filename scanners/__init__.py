@@ -1,1 +1,2 @@
 from scanners.abuse_ipdb_scanner import abuse_scaner
+from scanners.vt_scanner import vt_scanner
