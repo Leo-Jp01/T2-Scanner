@@ -13,13 +13,18 @@ if api_key_vt == None:
 
 #-------------- Scan & Analysis URL --------------------
 def scan_url(url:str) -> dict:
-    """Give a url and scan using VT_API to analyze
+    """Take a url and scan using VT_API to analyze
 
     Args:
-        url (str): take a url 
+        url (str): Take a url
 
     Returns:
-        dict: _description_
+        dict: return a dict with all results of VT_API.
+         Outputs:
+            - MALICIOUS
+            - SUSPICIOUS
+            - UNDETECTED
+            - HARMLESS
     """
     try:
         #More about conections -> https://virustotal.github.io/vt-py/quickstart.html
@@ -43,16 +48,25 @@ def scan_url(url:str) -> dict:
 #------------- Scan & Analysis File ------------------------
 
 def scan_file(file:str) -> dict:
-    """Give a file from your computer and scan using VT_API  to analyze
+    """Take a file from your computer and scan using VT_API to analyze
 
     Args:
-        file (str): _description_
+        file (str): Take a file
 
     Raises:
-        ValueError: _description_
+        ValueError: analize if a file is empty or exists on the computer
 
     Returns:
-        dict: _description_
+        dict: return a dict with all results of VT_API.
+         Outputs:
+            - MALICIOUS
+            - SUSPICIOUS
+            - UNDETECTED
+            - HARMLESS
+            - TIMEOUT
+            - CONFIRMED_TIMEOUT
+            - FAILURE
+            - UNSUPPORTED
     """
     if not is_valid_file(file):
         raise ValueError({"Error":"Your file doesn't exist or is empty"})
@@ -85,13 +99,16 @@ def scan_file(file:str) -> dict:
 
 # ---------- Main Logic for VT(Virus Total) Scanner ---------
 def vt_scanner(resource:str) -> dict:
-    """_summary_
+    """Take a resource and analize it with file scanner o url scanner
 
     Args:
-        resource (str): _description_
+        resource (str): Give a resource can be a file or url
 
     Returns:
-        dict: _description_
+        dict: Return a dict but its depend of a type.
+         Possible outputs:
+            - scan_url: analize an url
+            - scan_url: analize a file
     """
 
     if resource.startswith("https://") or resource.startswith("http://"):
