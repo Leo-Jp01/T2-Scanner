@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import vt
 from my_validators import is_valid_file
+from my_validators import is_url
 
 # -------------- Load & Config Abuse_API --------------
 load_dotenv()
@@ -103,6 +104,9 @@ def vt_scanner(resource:str) -> dict:
 
     Args:
         resource (str): Give a resource can be a file or url
+    
+    Raises:
+        ValueError: return an error if the input is not a valid URL or file
 
     Returns:
         dict: Return a dict but its depend of a type.
@@ -111,9 +115,12 @@ def vt_scanner(resource:str) -> dict:
             - scan_url: analize a file
     """
 
-    if resource.startswith("https://") or resource.startswith("http://"):
+    if is_url(resource):
         return scan_url(resource)
     
-    return scan_file(resource)
+    if is_valid_file(resource):
+        return scan_file(resource)
+    
 
+    raise ValueError({"Error":"Your input is neither a valid file nor a valid URL"})
 
