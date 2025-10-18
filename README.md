@@ -154,9 +154,6 @@ T2-SCANNER/
 
 ```
 ## Roadmap.
-- [x] Validadores IP, URL y ARCHIVOS. 
-- [x] Escáneres Funcionales.
-- [x] CLI básico. 
 - [ ] Sistema de cache.
 - [ ] Sistema de scoring multiple y unificado.
 - [ ] Exportación de resultados.
