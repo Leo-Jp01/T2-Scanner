@@ -9,9 +9,7 @@ T2-Scanner (Threat Tool Scanner) es una herramienta para analistas de seguridad,
 
 
 ## Demo.
-<video src="media/t2scanner.mp4" controls width="600">
-</video>
-
+https://github.com/user-attachments/assets/4dc1f809-8282-4aae-8aed-86bcf654ec12
 ## Arquitectura.
 
 ```
@@ -165,7 +163,7 @@ Este proyecto se desarrolló tomando como base a la documentación oficial y rec
 - [Documentación Oficial AbuseIPDB - Acceso a la API](https://docs.abuseipdb.com/#configuring-fail2ban)
 - [Documentación Oficial AbuseIPDB - Categoría de ataques](https://www.abuseipdb.com/categories)
 - [Documentación Oficial VirusTotal - Guia inicio libreria VT](https://virustotal.github.io/vt-py/quickstart.html)
-- [Documentación Oficial VirusTotal - Manejo de excepciones](https://virustotal.github.io/vt-py/api/client.html#vt.APIError)\
+- [Documentación Oficial VirusTotal - Manejo de excepciones](https://virustotal.github.io/vt-py/api/client.html#vt.APIError)
 
 La estructura del manejo de errores, autenticación y validaciones se diseñó siguiendo las guías y ejemplos oficiales.
 
